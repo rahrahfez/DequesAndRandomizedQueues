@@ -1,2 +1,2 @@
 # DequesAndRandomizedQueues
-Assignemnt for week 2 of Algs4
+Assignment for week 2 of Algs4
