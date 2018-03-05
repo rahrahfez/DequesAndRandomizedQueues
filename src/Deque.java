@@ -7,69 +7,67 @@ public class Deque<Item> implements Iterable<Item> {
 	public Node previous;
     }
     
-    private int size_;
-    private Node first_;
-    private Node last_;
+    private int size_ = 0;
+    private Node head_ = null;
+    private Node tail_ = null; 
     
-    public Deque() {
-	size_ = 0;
-	first_ = null;
-	last_ = null;
-    }    
+    public Deque() {} // empty constructor    
     public boolean isEmpty() {
-	return first_ == null;
+	return head_ == null;
     }    
     public int size() {
-	if (first_.item == null)
+	if (head_.item == null)
 	    return 0;
-	Node current = first_;
-	while (current != null) {
-	    size_++;
-	    current = current.next;
-	}
 	return size_;
     }    
     public void addFirst(Item item) {
 	if (item == null)
-	    throw new java.lang.IllegalArgumentException();
-
-	if (first_.item == null) 
-	    first_.item = item;	
-
-	Node temp = first_;
-	first_ = new Node();
-	first_.item = item;
-	first_.next = temp;
+	    throw new java.lang.IllegalArgumentException();	
+	
+	if (isEmpty()) {
+	    head_ = new Node();
+	    head_.item = item;
+	    size_++;
+	}
+	else {
+	    Node temp = head_;
+	    head_ = new Node();
+	    head_.item = item;
+	    head_.next = temp;
+	    size_++;
+	}
     }    
     public void addLast(Item item) {
 	if (item == null)
 	    throw new java.lang.IllegalArgumentException();
     }    
     public Item removeFirst() {
-	if (first_.item == null)
+	if (head_.item == null)
 	    throw new java.util.NoSuchElementException();
 	
-	Item temp = first_.item;
-	first_.item = first_.next.item;
-	first_.item = null;
+	Item temp = head_.item;
+	head_.item = head_.next.item;
+	head_.item = null;
 	return temp;
     }
     public Item removesLast() {
-	if (last_.item == null)
+	if (tail_.item == null)
 	    throw new java.util.NoSuchElementException();
 
-	return last_.item;
+	return tail_.item;
     }
     public Iterator<Item> iterator() {
        return new DequeIterator();
     }
     
     private class DequeIterator implements Iterator<Item> {
-	private Node current_ = first_;
+	private Node current_ = head_;
 	
 	public boolean hasNext() {
 	    return current_ != null;
 	}
+	public Item remove()
+	    throw new java.lang.UnsupportedOperationException();
 	public Item next() {
 	    Item item = current_.item;
 	    current_ = current_.next;
@@ -78,7 +76,20 @@ public class Deque<Item> implements Iterable<Item> {
     }
     
     public static void main(String[] args) {
-	
+	Deque<Integer> deck = new Deque<Integer>();
+	deck.addFirst(4);
+	deck.addFirst(10);
+	deck.addFirst(20);
+	deck.addFirst(15);
+	deck.addFirst(2);
 
+	Iterator it = deck.iterator();
+
+	while (it.hasNext()) {   
+	    System.out.println(it.next());
+	}
+	
+	System.out.println(deck.size());
+	
     }
 }
